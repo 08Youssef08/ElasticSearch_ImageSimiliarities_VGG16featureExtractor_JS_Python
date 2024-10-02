@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 20px;
+}
+
+#drop_zone {
+    width: 300px;
+    height: 200px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+}
+
+#drop_zone.highlight {
+    border-color: green;
+}
+
+#output {
+    margin-top: 20px;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.grid-item {
+    width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+    padding: 5px;
+    background-color: #f9f9f9;
+}
+.drop-zone {
+    border: 2px dashed #ddd;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    background-size: contain; /* Ensure the entire image is visible */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    height: 300px; /* Set a fixed height for visibility */
+    transition: background 0.3s; /* Smooth transition for background change */
+    background-color: #f9f9f9; /* Add a default background color */
+}
