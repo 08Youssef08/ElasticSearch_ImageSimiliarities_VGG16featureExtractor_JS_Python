@@ -10,6 +10,12 @@
     <h1>Drag and Drop Image to Extract Features</h1>
     <div id="drop_zone" class="drop-zone">Drop image here</div>
     <div id="output"></div>
+    
+    <h2>Select Similarity Metric</h2>
+    <button id="cosineBtn" value="cosine">cosine Similarity (Default)</button>
+    <button id="l1Btn" value="l1">L1 Norm</button>
+    <button id="euclideanBtn" value="euclidean">Euclidean Distance</button>
+    <input id="TopkButt" type="number" placeholder="Enter topK value" min="1">
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

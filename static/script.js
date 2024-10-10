@@ -1,6 +1,30 @@
 const dropZone = document.getElementById("drop_zone");
 const output = document.getElementById("output");
+let topK=5;
+document.getElementById("TopkButt").addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') { // Check if "Enter" was pressed
+        const inputVal = document.getElementById("TopkButt").value;
 
+        if (inputVal && !isNaN(inputVal)) {
+            topK = parseInt(inputVal, 10); // Update topK with the entered value
+            console.log('Number of results set to:', topK);
+        } else {
+            console.error('Invalid input. Please enter a valid number.');
+        }
+    }
+});
+let selectedMetric = 'cosine';  // Default metric is cosine
+
+// Add event listeners to buttons to capture the selected metric
+document.getElementById('cosineBtn').addEventListener('click', function() {
+    selectedMetric = "cosineSimilarity(params.query_vector, 'image_embedding') + 1.0";
+});
+document.getElementById('l1Btn').addEventListener('click', function() {
+    selectedMetric = "1 / (1 + l1norm(params.query_vector, 'image_embedding'))";
+});
+document.getElementById('euclideanBtn').addEventListener('click', function() {
+    selectedMetric = "1 / (1 + l2norm(params.query_vector, 'image_embedding'))";
+});
 dropZone.addEventListener("dragover", function (e) {
     e.preventDefault();
     dropZone.classList.add("highlight");
@@ -44,7 +68,10 @@ dropZone.addEventListener("drop", function (e) {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ features: data.features })  // Use extracted features here
+                        body: JSON.stringify({ features: data.features,
+                            metric: selectedMetric,
+                            topK : topK
+                         })  // Use extracted features here
                     });
                 })
                 .then(response => response.json())

@@ -1,0 +1,9 @@
+pycash/
+
+env/
+venv/
+ENV/
+
+animals/
+
+**/*.ipynb/

@@ -37,16 +37,21 @@ def search():
         # Get the features from the request (sent by JavaScript)
         data = request.get_json()
         query_features = np.array(data['features'])
-        
+        metric = data['metric'] # Default to 'cosine' if not provided
         # Search for similar images using the query features
-        similar_images = search_similar_images(query_features)
+        top_n=int(data['topK'])
+        similar_images = search_similar_images(query_features,metric,top_n)
         
         return jsonify(similar_images)
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-def search_similar_images(query_features, top_n=5):
+def search_similar_images(query_features, metric,top_n=5):
     # Elasticsearch query using cosine similarity
+    #possible metrics : L1 : "1 / (1 + l1norm(params.queryVector, 'my_dense_vector'))"
+    #                    Cosine : "cosineSimilarity(params.query_vector, 'image_embedding') + 1.0"
+    #                    Euclidien : "1 / (1 + l2norm(params.queryVector, 'my_dense_vector'))"
+    print(f"Selected Metric Is{metric}")
     query = {
         "size": top_n,
         "_source": ["image_id", "image_name", "relative_path"],
@@ -54,7 +59,7 @@ def search_similar_images(query_features, top_n=5):
             "script_score": {
                 "query": {"match_all": {}},
                 "script": {
-                    "source": "cosineSimilarity(params.query_vector, 'image_embedding') + 1.0",
+                    "source": f"{metric}",
                     "params": {"query_vector": query_features.tolist()}
                 }
             }
