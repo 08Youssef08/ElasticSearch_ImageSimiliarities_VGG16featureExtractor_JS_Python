@@ -2,20 +2,21 @@ const dropZone = document.getElementById("drop_zone");
 const output = document.getElementById("output");
 let topK=5;
 document.getElementById("TopkButt").addEventListener('keydown', function (event) {
-    if (event.key === 'Enter') { // Check if "Enter" was pressed
+    if (event.key === 'Enter') { 
         const inputVal = document.getElementById("TopkButt").value;
 
         if (inputVal && !isNaN(inputVal)) {
-            topK = parseInt(inputVal, 10); // Update topK with the entered value
+            topK = parseInt(inputVal, 10); 
             console.log('Number of results set to:', topK);
         } else {
-            console.error('Invalid input. Please enter a valid number.');
+            console.error('Invalid input. Using default topK value.');
+            topK = 5; 
         }
     }
 });
-let selectedMetric = 'cosine';  // Default metric is cosine
+let selectedMetric = "cosineSimilarity(params.query_vector, 'image_embedding') + 1.0";  // Default metric 
 
-// Add event listeners to buttons to capture the selected metric
+//listeners to buttons to capture the selected metric
 document.getElementById('cosineBtn').addEventListener('click', function() {
     selectedMetric = "cosineSimilarity(params.query_vector, 'image_embedding') + 1.0";
 });
@@ -50,7 +51,6 @@ dropZone.addEventListener("drop", function (e) {
 
                 output.innerHTML = "Image uploaded. Extracting features...";
 
-                // Send the Base64 image to the Python backend for feature extraction
                 fetch('/extract_features', {
                     method: 'POST',
                     headers: {
@@ -62,7 +62,7 @@ dropZone.addEventListener("drop", function (e) {
                 .then(data => {
                     output.innerHTML = `Extracted Features: ${JSON.stringify(data.features)}`;
                     
-                    // Now that features are extracted, use them to search for similar images
+                    // using features to search for similar images
                     return fetch('/search', {
                         method: 'POST',
                         headers: {
@@ -71,12 +71,12 @@ dropZone.addEventListener("drop", function (e) {
                         body: JSON.stringify({ features: data.features,
                             metric: selectedMetric,
                             topK : topK
-                         })  // Use extracted features here
+                         }) 
                     });
                 })
                 .then(response => response.json())
                 .then(similarImages => {
-                    // Clear only image display, keep the drop zone
+                    // image display
                     const gridContainer = document.createElement('div');
                     gridContainer.classList.add('grid-container');
 
@@ -91,7 +91,7 @@ dropZone.addEventListener("drop", function (e) {
                         gridContainer.appendChild(imgElement);
                     });
 
-                    // Clear old grid content, append new grid
+                    // Clear old grid 
                     output.innerHTML = "";  // Clear previous results but not the drop zone
                     output.appendChild(gridContainer);
                     
@@ -103,7 +103,7 @@ dropZone.addEventListener("drop", function (e) {
                 });
 
             };
-            reader.readAsDataURL(file);  // Convert image to Base64
+            reader.readAsDataURL(file); 
         } else {
             output.innerHTML = "Please drop an image file.";
         }

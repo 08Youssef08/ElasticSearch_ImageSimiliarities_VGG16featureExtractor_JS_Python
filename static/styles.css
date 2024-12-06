@@ -46,12 +46,12 @@ h1 {
     padding: 20px;
     text-align: center;
     margin-bottom: 20px;
-    background-size: contain; /* Ensure the entire image is visible */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    height: 300px; /* Set a fixed height for visibility */
-    transition: background 0.3s; /* Smooth transition for background change */
-    background-color: #f9f9f9; /* Add a default background color */
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    height: 300px;
+    transition: background 0.3s; 
+    background-color: #f9f9f9; 
 }
 #TopkButt {
 margin: 5px;
